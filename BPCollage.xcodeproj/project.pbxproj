@@ -14,7 +14,6 @@
 		848761441994E66E0028857E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 848761431994E66E0028857E /* main.m */; };
 		848761481994E66E0028857E /* BPCollageAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 848761471994E66E0028857E /* BPCollageAppDelegate.m */; };
 		8487614B1994E66E0028857E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 848761491994E66E0028857E /* Main.storyboard */; };
-		8487614E1994E66E0028857E /* BPCollageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8487614D1994E66E0028857E /* BPCollageViewController.m */; };
 		848761501994E66E0028857E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8487614F1994E66E0028857E /* Images.xcassets */; };
 		848761571994E66E0028857E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848761561994E66E0028857E /* XCTest.framework */; };
 		848761581994E66E0028857E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848761371994E66E0028857E /* Foundation.framework */; };
@@ -45,8 +44,6 @@
 		848761461994E66E0028857E /* BPCollageAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BPCollageAppDelegate.h; sourceTree = "<group>"; };
 		848761471994E66E0028857E /* BPCollageAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BPCollageAppDelegate.m; sourceTree = "<group>"; };
 		8487614A1994E66E0028857E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8487614C1994E66E0028857E /* BPCollageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BPCollageViewController.h; sourceTree = "<group>"; };
-		8487614D1994E66E0028857E /* BPCollageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BPCollageViewController.m; sourceTree = "<group>"; };
 		8487614F1994E66E0028857E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		848761551994E66E0028857E /* BPCollageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BPCollageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		848761561994E66E0028857E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -112,11 +109,9 @@
 		8487613D1994E66E0028857E /* BPCollage */ = {
 			isa = PBXGroup;
 			children = (
-				848761461994E66E0028857E /* BPCollageAppDelegate.h */,
-				848761471994E66E0028857E /* BPCollageAppDelegate.m */,
-				848761491994E66E0028857E /* Main.storyboard */,
-				8487614C1994E66E0028857E /* BPCollageViewController.h */,
-				8487614D1994E66E0028857E /* BPCollageViewController.m */,
+				848761721994F5580028857E /* MODEL */,
+				8487616F1994F5000028857E /* VIEW */,
+				848761701994F53D0028857E /* CONTROLLER */,
 				8487614F1994E66E0028857E /* Images.xcassets */,
 				8487613E1994E66E0028857E /* Supporting Files */,
 			);
@@ -126,6 +121,8 @@
 		8487613E1994E66E0028857E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				848761461994E66E0028857E /* BPCollageAppDelegate.h */,
+				848761471994E66E0028857E /* BPCollageAppDelegate.m */,
 				8487613F1994E66E0028857E /* BPCollage-Info.plist */,
 				848761401994E66E0028857E /* InfoPlist.strings */,
 				848761431994E66E0028857E /* main.m */,
@@ -150,6 +147,28 @@
 				8487615F1994E66E0028857E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8487616F1994F5000028857E /* VIEW */ = {
+			isa = PBXGroup;
+			children = (
+				848761491994E66E0028857E /* Main.storyboard */,
+			);
+			name = VIEW;
+			sourceTree = "<group>";
+		};
+		848761701994F53D0028857E /* CONTROLLER */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = CONTROLLER;
+			sourceTree = "<group>";
+		};
+		848761721994F5580028857E /* MODEL */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MODEL;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,7 +269,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8487614E1994E66E0028857E /* BPCollageViewController.m in Sources */,
 				848761481994E66E0028857E /* BPCollageAppDelegate.m in Sources */,
 				848761441994E66E0028857E /* main.m in Sources */,
 			);
