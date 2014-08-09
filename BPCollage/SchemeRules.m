@@ -9,6 +9,11 @@
 #import "SchemeRules.h"
 
 @implementation SchemeRules
+
+///////////////////////////////////////////
+#pragma mark - initialization
+///////////////////////////////////////////
+
 -(id)init
 {
     return [self initWithCountOfImages:0 andForWidth:0.0];
@@ -21,23 +26,38 @@
     }
     return self;
 }
+
+///////////////////////////////////////////
+#pragma mark - Creation frames using rules
+///////////////////////////////////////////
+
 -(void) createArrayWithCountOfImages:(NSInteger)count andForWidth:(CGFloat)width
 {
     self.imageFrames=[[NSMutableArray alloc]init];
     
-    NSMutableArray *newArray=[[NSMutableArray alloc]init];
+    NSMutableArray *newArray=[[NSMutableArray alloc]init]; //temp array for filling
     
     if (count) {
         
+        ///////////////////////////////////////////
+        //
+        // Model of collage based on blocks with MAX 6 photos
+        // If there are more then one block (more then 6 photos) we need several cycles
+        // block with 1..6 photos implements via switch
+        // Each swith represent a schema of photo's places in block and depends on method argument "width"(of collage image)
+        //
+        ///////////////////////////////////////////
         
-        int lastPart = (count>6) ? count%6 : count;
-        float hSize = 0;
-        int maxSteps=count/6;
-        if (count/6>0 && 0==count%6) {
+        int lastPart = (count>6) ? count%6 : (int)count; //last block photo counter
+        float hSize = 0;                                 //factor for collage height (depends of number of blocks)
+        int maxSteps=((int)count)/6;                     //steps (cycles) for blocks
+        if (count/6>0 && 0==count%6) {                   //customize state of 6 photos in block (--steps)
             maxSteps--;
         }
-        for (int steps=0; steps<=maxSteps; steps++) {
-            NSInteger toAdd = lastPart;
+        
+        for (int steps=0; steps<=maxSteps; steps++) {    //cycle for blocks
+            
+            NSInteger toAdd = lastPart;                  //define number of photos in block
             if (steps<maxSteps || 0==lastPart) {
                 toAdd = 6;
             }
@@ -85,13 +105,13 @@
                 case 0:
                 default:
                     break;
-            }
+            }//end switch
         }//end for
-        self.imageFrames=newArray;
-        NSLog(@"%@",newArray);
-        self.collageFrame=[NSValue valueWithCGRect:CGRectMake( 0.0 , 0.0, width , hSize*width )];
-    }
-    
+        
+        self.imageFrames=newArray; //set photos frames for new collage
+        self.collageFrame=[NSValue valueWithCGRect:CGRectMake( 0.0 , 0.0, width , hSize*width )]; //set frame for new collage
+        
+    }//end if(count)
     
 }
 

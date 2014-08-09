@@ -11,30 +11,39 @@
 #import "BestCollectionVC.h"
 
 @interface NicknameVC ()<NSURLSessionDownloadDelegate, UITextFieldDelegate, UIAlertViewDelegate>
+
+///////////////////////////////////////////
+///////////////////////////////////////////
+
 @property (weak, nonatomic) IBOutlet UITextField *nickname;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
-@property (strong,nonatomic) NSMutableArray *photos;
-@property (strong,nonatomic) NSString *name;
+
+@property (strong,nonatomic) NSMutableArray *photos;  // array with parsed Photo* objects
+@property (strong,nonatomic) NSString *name;          // nickname used for search last time
 @end
+
+///////////////////////////////////////////
+///////////////////////////////////////////
 
 @implementation NicknameVC
 
-#pragma mark - UITextFieldDelegate
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
+///////////////////////////////////////////
+#pragma mark - ViewDidLoad
+///////////////////////////////////////////
 
-}
--(void)textFieldDidBeginEditing:(UITextField *)textField
+- (void)viewDidLoad
 {
+    [super viewDidLoad];
+    self.nickname.delegate=self;
+    self.spinner.hidden=YES;
+    // Do any additional setup after loading the view.
 }
 
-///////////////////////////////////
+///////////////////////////////////////////
+#pragma mark - Getters
+///////////////////////////////////////////
+
 -(NSString *)name
 {
     if (!_name) {
@@ -51,80 +60,75 @@
     return _photos;
 }
 
+////////////////////////////////////////////////////////////////// Get sorted and limited array using already parsed array with Photo* objects
+-(NSArray *) sortedPhotosByPopularity
+{
+    NSArray *sortedArray=[self.photos sortedArrayUsingSelector:@selector(photoCompare:)];
+    if ([sortedArray count]>LIMITPHOTOS) {
+        NSArray *limitedArray=[sortedArray subarrayWithRange:NSMakeRange(0, LIMITPHOTOS)];
+        return limitedArray;
+    }else{
+        return sortedArray;
+    }
+}
+
+///////////////////////////////////////////
+#pragma mark - IBAction
+///////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////// Handle user request
 - (IBAction)clickCreate:(id)sender
 {
     [self textFieldShouldReturn:self.nickname];
-    if ([self.nickname.text length]) {
+    if ([self.nickname.text length]) {                         //if request exists
         NSLog(@"%@ - %@",self.nickname.text,self.name);
-        if ([self.nickname.text isEqualToString:self.name]) {
-            
-        }else{
-            self.photos=nil;
+        if (![self.nickname.text isEqualToString:self.name]) { // -> if request name is not the same with last one
+            self.photos=nil;                                         //then clear last results and create new fetch
             self.name=nil;
             [self fetchUser];
         }
-    }else{
+    }else{                                                     //else (not exists) call alert
         [self cancelWithAlert:4];
     }
-
-    
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.nickname.delegate=self;
-    self.spinner.hidden=YES;
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+///////////////////////////////////////////
+#pragma mark - PrepareForSegue
+///////////////////////////////////////////
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"PushToCollection"]) {
         if ([segue.destinationViewController isKindOfClass:[BestCollectionVC class]]){
             BestCollectionVC *bcvc=(BestCollectionVC *)segue.destinationViewController;
-            bcvc.photos=[self sortedPhotosByPopularity];
+            bcvc.photos=[self sortedPhotosByPopularity];        //send sorted array with Photo* object to next VC
         }
     }
 }
--(NSArray *) sortedPhotosByPopularity
-{
-    NSArray *sortedArray=[self.photos sortedArrayUsingSelector:@selector(photoCompare:)];
-    if ([sortedArray count]>LIMITPHOTOS) {
-        NSArray *limitedArray=[sortedArray subarrayWithRange:NSMakeRange(0, LIMITPHOTOS)];
-        for(Photo *photo in limitedArray)
-        {
-            NSLog(@"LIKESL:%@ URL:%@",photo.likes,photo.imageURL);
-        }
-        return limitedArray;
-    }else{
-        return sortedArray;
-    }
-}
+
+////////////////////////////////////////////////////////////////// Seque pause for Network Downloading
 -(BOOL) shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     if ([identifier isEqualToString:@"PushToCollection"]) {
-        if ([self.photos count]&&[self.nickname.text isEqualToString:self.name]) {
-            return YES;
+        if ([self.photos count]&&[self.nickname.text isEqualToString:self.name]) { //if request name is the same with last one
+            return YES;                                                            //then perform segue with already downloaded data
         }else return NO;
     }
     return YES;
 }
+
+////////////////////////////////////////////////////////////////// After Network Downloading Let's perform Segue via Code
+-(void) readyForSeque
+{
+    [self.spinner stopAnimating];
+    self.spinner.hidden=YES;
+    self.name=[NSString stringWithString:self.nickname.text];
+    [self performSegueWithIdentifier:@"PushToCollection" sender:self];
+}
+
+///////////////////////////////////////////
+#pragma mark - Alerts settings
+///////////////////////////////////////////
 
 -(void) cancelWithAlert:(NSInteger) alertCode
 {
@@ -145,6 +149,10 @@
         case 4:
             alert=[[UIAlertView alloc]initWithTitle:@"Необходим ник" message:@"Пожалуйста, введите имя пользователя." delegate:self cancelButtonTitle:@"ОК" otherButtonTitles: nil];
             break;
+        case 5:
+            alert=[[UIAlertView alloc]initWithTitle:@"Bad food" message:@"Пожалуйста, введите другое имя пользователя." delegate:self cancelButtonTitle:@"ОК" otherButtonTitles: nil];
+            self.nickname.text=@"";
+            break;
         default:
             alert=[[UIAlertView alloc]initWithTitle:@"Ошибка" message:@"Неожиданно возникла ошибка(" delegate:self cancelButtonTitle:@"ОК" otherButtonTitles: nil];
             break;
@@ -157,33 +165,62 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
-/////////////////////////////////////////////////////
+
+///////////////////////////////////////////
 #pragma mark - Downloading
+///////////////////////////////////////////
 
-
+////////////////////////////////////////////////////////////////// Network Request for search nickname
 - (void) fetchUser
 {
-    
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
     
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%s%@%@%@%s", APIINSTAGRAM,@"search?q=",self.nickname.text,@"&count=1&client_id=",CLIENTID]]];
+    bool valid = [NSURLConnection canHandleRequest:request];                    //is it a good nickname for user?
+    NSLog(@"%i",valid);
     NSLog(@"%@",[NSString stringWithFormat:@"%s%@%@%@%s", APIINSTAGRAM,@"search?q=",self.nickname.text,@"&count=1&client_id=",CLIENTID]);
-    NSURLSessionConfiguration *configuration=[NSURLSessionConfiguration ephemeralSessionConfiguration];
-    configuration.timeoutIntervalForRequest=5.0;
-    configuration.timeoutIntervalForResource=10.0;
-    NSURLSession *session=[NSURLSession sessionWithConfiguration:configuration];
-    NSURLSessionDownloadTask *task=[session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-        //NSLog(@"%@",location);
-        [self loadUserInfoFromLocalURL:location andThenExecuteBlock:nil];
-    }];
-    [task resume];
-    
+    if (valid) {
+        NSURLSessionConfiguration *configuration=[NSURLSessionConfiguration ephemeralSessionConfiguration];
+        NSURLSession *session=[NSURLSession sessionWithConfiguration:configuration];
+        NSURLSessionDownloadTask *task=[session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+            
+            [self loadUserInfoFromLocalURL:location andThenExecuteBlock:nil];   //download completed, Lets parse
+        }];
+        [task resume];
+    } else{
+        [self cancelWithAlert:5];
+    }
+
 }
 
+////////////////////////////////////////////////////////////////// Parsing user search results
+- (void)loadUserInfoFromLocalURL:(NSURL *)localFile
+             andThenExecuteBlock:(void(^)())blockExe
+{
+    NSDictionary *dictonaryOfUserInfo = [self dictionaryFromURL:localFile]; //Parsing via NSJSONSerialization
+    NSArray *array=[dictonaryOfUserInfo valueForKeyPath:@"data.id"];
+    NSString *nickID=@"";
+    
+    if ([array count]) {
+        if ([[array objectAtIndex:0] isKindOfClass:[NSString class]]) {
+            nickID=[NSString stringWithFormat:@"%@",[array objectAtIndex:0]];
+        }
+    }
+    
+    if ([nickID length]) {                                //If Nick is founded
+        [self fetchPhotosByUserID:nickID];                //   then search photos with this userID
+    }else{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self cancelWithAlert:2];                     //Else (user is not founded) -> call alert and end operation
+        });
+    }
+    if (blockExe) blockExe();
+}
+
+////////////////////////////////////////////////////////////////// Network Request for search Nickname's photos via userID
 - (void) fetchPhotosByUserID:(NSString *)userID
 {
-    
     self.spinner.hidden=NO;
     [self.spinner startAnimating];
     
@@ -192,14 +229,49 @@
     NSURLSessionConfiguration *configuration=[NSURLSessionConfiguration ephemeralSessionConfiguration];
     NSURLSession *session=[NSURLSession sessionWithConfiguration:configuration];
     NSURLSessionDownloadTask *task=[session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-        //NSLog(@"%@",location);
-        [self loadPhotosInfoFromLocalURL:location andThenExecuteBlock:nil];
+        
+        [self loadPhotosInfoFromLocalURL:location andThenExecuteBlock:nil]; //download completed, Lets parse
     }];
     [task resume];
-    
 }
 
 
+////////////////////////////////////////////////////////////////// Network Request for search Nickname's photos via userID
+- (void)loadPhotosInfoFromLocalURL:(NSURL *)localFile
+             andThenExecuteBlock:(void(^)())blockExe
+{
+    NSDictionary *dictonaryOfPhotoInfo = [self dictionaryFromURL:localFile]; //Parsing via NSJSONSerialization
+    NSArray *array=[dictonaryOfPhotoInfo valueForKeyPath:@"data"];
+    if ([array count]){                                                      //IF Photos founded
+        for (NSDictionary *photoDict in array) {
+            
+            Photo *photo=[[Photo alloc]init];                                      //then creating Photo* objects
+                                                                                   //and save url and number of "like"
+            id likes=[photoDict valueForKeyPath:@"likes.count"];
+            id url=[photoDict valueForKeyPath:@"images.thumbnail.url"];
+            if (url) {
+                photo.likes=[NSNumber numberWithInt:[likes intValue]];
+                NSLog(@"LIKES: %@",photo.likes);
+                NSString *string=[NSString stringWithFormat:@"%@",url];
+                NSString *imageName=[string lastPathComponent];
+                photo.imageURL=[NSString stringWithFormat:@"%s%@",WEBIMAGE,imageName];
+                
+                [self.photos addObject:photo];
+            }
+        }//end for
+        
+        if ([self.photos count]) {                                                  // -> IF there are any photos then perform SEGUE
+             [self performSelectorOnMainThread:@selector(readyForSeque) withObject:nil waitUntilDone:NO];
+        }
+    }else{                                                                   //ELSE (no photo data in parsed array) -> call alert and end operation
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self cancelWithAlert:3];
+        });
+    }
+    if (blockExe) blockExe();
+}
+
+////////////////////////////////////////////////////////////////// Parsing JSON to NSDictionary
 - (NSDictionary *)dictionaryFromURL:(NSURL *)url
 {
     NSDictionary *fullData;
@@ -213,91 +285,10 @@
 }
 
 
-- (void)loadUserInfoFromLocalURL:(NSURL *)localFile
-           andThenExecuteBlock:(void(^)())blockExe
-{
-    NSDictionary *dictonaryOfUserInfo = [self dictionaryFromURL:localFile];
-    //NSLog(@"%@",dictonaryOfUserInfo);
-    NSArray *array=[dictonaryOfUserInfo valueForKeyPath:@"data.id"];
-    //NSLog(@"%@",array);
-    NSString *nickID=@"";
-    if ([array count]) {
-        if ([[array objectAtIndex:0] isKindOfClass:[NSString class]]) {
-            nickID=[NSString stringWithFormat:@"%@",[array objectAtIndex:0]];
-            //NSLog(@"%@",nickID);
-        }
-    }
-    
-    if ([nickID length]) { //User is founded
-        [self fetchPhotosByUserID:nickID];
-    }else{
-        //alert
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self cancelWithAlert:2];
-        });
-        
-        
-    }
- 
-    
-    //[self performSelectorOnMainThread:@selector(updateUIAfterFetch) withObject:nil waitUntilDone:NO];
-    
-    
-    if (blockExe) blockExe();
-}
 
-- (void)loadPhotosInfoFromLocalURL:(NSURL *)localFile
-             andThenExecuteBlock:(void(^)())blockExe
-{
-    NSDictionary *dictonaryOfPhotoInfo = [self dictionaryFromURL:localFile];
-    //NSLog(@"%@",dictonaryOfPhotoInfo);
-    NSArray *array=[dictonaryOfPhotoInfo valueForKeyPath:@"data"];
-    if ([array count]){ //Photos founded
-        for (NSDictionary *photoDict in array) {
-            Photo *photo=[[Photo alloc]init];
-            
-            id likes=[photoDict valueForKeyPath:@"likes.count"];
-            //NSLog(@"%@",likes);
-            id url=[photoDict valueForKeyPath:@"images.thumbnail.url"];
-            if (url) {
-                photo.likes=[NSNumber numberWithInt:[likes intValue]];
-                NSLog(@"LIKES: %@",photo.likes);
-                NSString *string=[NSString stringWithFormat:@"%@",url];
-                NSString *imageName=[string lastPathComponent];
-                //NSLog(@"%@",imageName);
-                photo.imageURL=[NSString stringWithFormat:@"%s%@",WEBIMAGE,imageName];
-                
-                [self.photos addObject:photo];
-            }
-            
-            
-            
-        };
-        
-        if ([self.photos count]) {
-            
-             [self performSelectorOnMainThread:@selector(readyForSeque) withObject:nil waitUntilDone:NO];
-            
-        }
-    }else{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self cancelWithAlert:3];
-        });
-    }
-
-    if (blockExe) blockExe();
-}
-
--(void) readyForSeque
-{
-    [self.spinner stopAnimating];
-    self.spinner.hidden=YES;
-    self.name=[NSString stringWithString:self.nickname.text];
-    [self performSegueWithIdentifier:@"PushToCollection" sender:self];
-}
-
-
+///////////////////////////////////////////
 #pragma mark - NSURLSessionDownloadDelegate
+///////////////////////////////////////////
 
 // required by the protocol
 - (void)URLSession:(NSURLSession *)session
@@ -323,15 +314,43 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
 }
 
-/*
-#pragma mark - Navigation
+///////////////////////////////////////////
+#pragma mark - UITextFieldDelegate
+///////////////////////////////////////////
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    [textField resignFirstResponder];
+    return YES;
 }
-*/
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+}
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+}
 
+///////////////////////////////////////////
+#pragma mark - Other VC methods
+///////////////////////////////////////////
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+///////////////////////////////////////////
+///////////////////////////////////////////
 @end
+///////////////////////////////////////////
+///////////////////////////////////////////

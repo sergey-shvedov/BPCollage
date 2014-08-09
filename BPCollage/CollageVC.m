@@ -12,32 +12,36 @@
 #import "Const.h"
 
 @interface CollageVC ()<MFMailComposeViewControllerDelegate>
+
+///////////////////////////////////////////
+///////////////////////////////////////////
+
 @property (weak, nonatomic) IBOutlet UIView *viewForCollage;
-@property (strong,nonatomic) UIImageView *collageView;
-@property (strong,nonatomic) UIImage *collage;
-@property (strong,nonatomic) UIImageView *oneImageView;
-@property (strong,nonatomic) SchemeRules *rules;
+
+@property (strong,nonatomic) UIImageView *collageView;      //UIImageView with subviews of other UIImageViews for each UIImage
+@property (strong,nonatomic) UIImage *collage;              //Ready UIImage of our Collage
+@property (strong,nonatomic) UIImageView *oneImageView;     //UIImageView with only one (UIImage* collage)
+@property (strong,nonatomic) SchemeRules *rules;            //frames for all images in new Collage
 @end
 
+///////////////////////////////////////////
+///////////////////////////////////////////
+
 @implementation CollageVC
+
+///////////////////////////////////////////
+#pragma mark - Getters AND Setters
+///////////////////////////////////////////
 
 -(void)setImages:(NSSet *)images
 {
     _images=images;
     if ([images count]) {
-        SchemeRules *newRule=[[SchemeRules alloc]initWithCountOfImages:[images count] andForWidth:COLLAGEWIDTH];
+        SchemeRules *newRule=[[SchemeRules alloc]initWithCountOfImages:[images count] andForWidth:COLLAGEWIDTH];   //get array of frames for images
         self.rules=newRule;
     }
 }
 
-
--(UIImageView *)collageView
-{
-    if (!_collageView) {
-        _collageView=[self createImageView];
-    }
-    return _collageView;
-}
 -(UIImage *)collage
 {
     if (!_collage) {
@@ -45,6 +49,7 @@
     }
     return _collage;
 }
+
 -(UIImageView *)oneImageView
 {
     if (!_oneImageView) {
@@ -54,6 +59,45 @@
     }
     return _oneImageView;
 }
+
+-(UIImageView *)collageView
+{
+    if (!_collageView) {
+        _collageView=[self createImageView];
+    }
+    return _collageView;
+}
+
+////////////////////////////////////////////////////////////////// Combine all images using rules and create result UIImageView with Collage
+-(UIImageView *) createImageView
+{
+    UIImageView *newImageView=[[UIImageView alloc]init];
+    if (self.rules) {
+        
+        [newImageView setFrame:[self.rules.collageFrame CGRectValue]];                   //get collage frame from rules
+        [newImageView setBackgroundColor:[UIColor yellowColor]];
+        
+        int i=0;
+        for (UIImage *image in self.images)
+        {
+            UIImageView *imageView=[[UIImageView alloc]initWithImage:image];
+            [imageView setFrame:[[self.rules.imageFrames objectAtIndex:i] CGRectValue]]; //get frame from rules
+            imageView.contentMode=UIViewContentModeScaleAspectFill;
+            [imageView setClipsToBounds:YES];
+            [newImageView addSubview:imageView];
+            i++;
+        }
+    }
+    
+    return newImageView;
+}
+
+
+///////////////////////////////////////////
+#pragma mark - IBAction & Creating MailView
+///////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////// Create MFMailComposeViewController and new email with our Collage UIImage
 - (IBAction)sendMail:(id)sender
 {
     NSString *emailTitle = @"Коллаж";
@@ -71,48 +115,13 @@
     NSData *data = UIImageJPEGRepresentation(self.collage,1);
     [mc addAttachmentData:data  mimeType:@"image/jpeg" fileName:@"Collage.jpg"];
     
-    // Present mail view controller on screen
     [self presentViewController:mc animated:YES completion:NULL];
 }
 
--(UIImageView *) createImageView
-{
-    UIImageView *newImageView=[[UIImageView alloc]init];
-    if (self.rules) {
-        
-        
-        [newImageView setFrame:[self.rules.collageFrame CGRectValue]];
-        [newImageView setBackgroundColor:[UIColor yellowColor]];
-        
-        int i=0;
-        for (UIImage *image in self.images)
-        {
-            UIImageView *imageView=[[UIImageView alloc]initWithImage:image];
-            [imageView setFrame:[[self.rules.imageFrames objectAtIndex:i] CGRectValue]];
-            imageView.contentMode=UIViewContentModeScaleAspectFill;
-            [imageView setClipsToBounds:YES];
-            [newImageView addSubview:imageView];
-            i++;
-        }
-    }
-    
-    
-    return newImageView;
-}
 
--(UIImage *) changeImageViewToImage : (UIImageView *) view
-{
-    
-    UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    
-    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return img;
-    
-}
+///////////////////////////////////////////
+#pragma mark - Mail result Handler
+///////////////////////////////////////////
 
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -139,7 +148,23 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+///////////////////////////////////////////
+#pragma mark - Convertation VIEW -> IMAGE
+///////////////////////////////////////////
 
+-(UIImage *) changeImageViewToImage : (UIImageView *) view
+{
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+}
+
+
+///////////////////////////////////////////
+#pragma mark - View Methods and UpadteUI
+///////////////////////////////////////////
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -154,21 +179,18 @@
 {
     [super viewDidLoad];
     [self setupView];
-    // Do any additional setup after loading the view.
 }
 
 -(void) setupView
 {
     self.viewForCollage.contentMode=UIViewContentModeScaleAspectFit;
-    
-    [self.viewForCollage addSubview:self.oneImageView];
-    
+    [self.viewForCollage addSubview:self.oneImageView];                      //Show the Collage
     [self updateUI];
 }
+
 -(void) updateUI
 {
-    [self.oneImageView setFrame:self.viewForCollage.bounds];
-    
+    [self.oneImageView setFrame:self.viewForCollage.bounds];                 //Change frame in superview
 }
 
 -(void)viewDidLayoutSubviews
@@ -182,15 +204,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
+///////////////////////////////////////////
+///////////////////////////////////////////
 @end
+///////////////////////////////////////////
+///////////////////////////////////////////
