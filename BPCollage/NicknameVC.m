@@ -93,17 +93,30 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"PushToCollection"]) {
         if ([segue.destinationViewController isKindOfClass:[BestCollectionVC class]]){
             BestCollectionVC *bcvc=(BestCollectionVC *)segue.destinationViewController;
-            
-            bcvc.photos=self.photos;
+            bcvc.photos=[self sortedPhotosByPopularity];
         }
     }
 }
--(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+-(NSArray *) sortedPhotosByPopularity
+{
+    NSArray *sortedArray=[self.photos sortedArrayUsingSelector:@selector(photoCompare:)];
+    if ([sortedArray count]>LIMITPHOTOS) {
+        NSArray *limitedArray=[sortedArray subarrayWithRange:NSMakeRange(0, LIMITPHOTOS)];
+        for(Photo *photo in limitedArray)
+        {
+            NSLog(@"LIKESL:%@ URL:%@",photo.likes,photo.imageURL);
+        }
+        return limitedArray;
+    }else{
+        return sortedArray;
+    }
+}
+-(BOOL) shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     if ([identifier isEqualToString:@"PushToCollection"]) {
         if ([self.photos count]&&[self.nickname.text isEqualToString:self.name]) {
@@ -134,21 +147,14 @@
             break;
         default:
             alert=[[UIAlertView alloc]initWithTitle:@"Ошибка" message:@"Неожиданно возникла ошибка(" delegate:self cancelButtonTitle:@"ОК" otherButtonTitles: nil];
-            
             break;
     }
-
     [alert show];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-    
-    if ([alertView.title isEqualToString:@"Нет соединения"] && (1 == buttonIndex)) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-    }
-    
 }
 
 /////////////////////////////////////////////////////
@@ -292,12 +298,6 @@
 
 
 #pragma mark - NSURLSessionDownloadDelegate
--(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
-{
-    if (error) {
-        
-    }
-}
 
 // required by the protocol
 - (void)URLSession:(NSURLSession *)session

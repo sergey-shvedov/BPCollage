@@ -122,6 +122,7 @@
         if ([self.downloadImages objectForKey:[NSNumber numberWithInteger:indexPath.row]]) {
             [cell.button setBackgroundImage:[self.downloadImages objectForKey:[NSNumber numberWithInteger:indexPath.row]] forState:UIControlStateNormal];
         }else{
+            [cell.button setBackgroundImage:nil forState:UIControlStateNormal];
             [self downloadImageInCell:cell withIndexPath:indexPath];
         }
    
@@ -152,7 +153,6 @@
 
 -(void) downloadImageInCell:(UICollectionViewCell*) cell  withIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!");
     Photo* photo=(Photo *)[self.photos objectAtIndex:indexPath.row];
     if(photo.imageURL){
     
@@ -174,7 +174,7 @@
                                                                 [self.downloadImages setObject:image forKey:[NSNumber numberWithInteger:indexPath.row]];
                                                                 dispatch_async(dispatch_get_main_queue(), ^{
                                                                     
-                                                                    [((CollectionViewCell*)cell).button setBackgroundImage:image forState:UIControlStateNormal];
+                                                                    [((CollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath]).button setBackgroundImage:image forState:UIControlStateNormal];
                                                                     [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
                                                                 });
                                                                 }

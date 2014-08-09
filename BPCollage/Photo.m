@@ -9,5 +9,8 @@
 #import "Photo.h"
 
 @implementation Photo
-
+-(NSComparisonResult)photoCompare:(Photo *)otherPhoto
+{
+    return [otherPhoto.likes compare:self.likes];
+}
 @end

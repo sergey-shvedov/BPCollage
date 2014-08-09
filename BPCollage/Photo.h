@@ -11,4 +11,5 @@
 @interface Photo : NSObject
 @property (strong,nonatomic) NSString *imageURL;
 @property (strong,nonatomic) NSNumber *likes;
+- (NSComparisonResult) photoCompare:(Photo *)otherPhoto;
 @end

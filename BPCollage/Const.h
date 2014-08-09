@@ -17,5 +17,7 @@
 
 #define COLLAGEWIDTH 640.0
 
+#define LIMITPHOTOS 24
+
 
 #endif
