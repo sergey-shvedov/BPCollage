@@ -20,6 +20,14 @@
 		848761591994E66E0028857E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8487613B1994E66E0028857E /* UIKit.framework */; };
 		848761611994E66E0028857E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8487615F1994E66E0028857E /* InfoPlist.strings */; };
 		848761631994E66E0028857E /* BPCollageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848761621994E66E0028857E /* BPCollageTests.m */; };
+		848761751994F5E70028857E /* NicknameVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 848761741994F5E70028857E /* NicknameVC.m */; };
+		848761781994F6350028857E /* BestCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 848761771994F6350028857E /* BestCollectionVC.m */; };
+		8487617B1994F6610028857E /* CollageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8487617A1994F6610028857E /* CollageVC.m */; };
+		8487617E1994F7910028857E /* SelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8487617D1994F7910028857E /* SelectButton.m */; };
+		848761801994F8670028857E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8487617F1994F8670028857E /* MessageUI.framework */; };
+		848761831994FE110028857E /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 848761821994FE110028857E /* CollectionViewCell.m */; };
+		84876187199573090028857E /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 84876186199573090028857E /* Photo.m */; };
+		8487618A199644600028857E /* SchemeRules.m in Sources */ = {isa = PBXBuildFile; fileRef = 84876189199644600028857E /* SchemeRules.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +58,22 @@
 		8487615E1994E66E0028857E /* BPCollageTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BPCollageTests-Info.plist"; sourceTree = "<group>"; };
 		848761601994E66E0028857E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		848761621994E66E0028857E /* BPCollageTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BPCollageTests.m; sourceTree = "<group>"; };
+		848761731994F5E70028857E /* NicknameVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NicknameVC.h; sourceTree = "<group>"; };
+		848761741994F5E70028857E /* NicknameVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NicknameVC.m; sourceTree = "<group>"; };
+		848761761994F6350028857E /* BestCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BestCollectionVC.h; sourceTree = "<group>"; };
+		848761771994F6350028857E /* BestCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BestCollectionVC.m; sourceTree = "<group>"; };
+		848761791994F6610028857E /* CollageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollageVC.h; sourceTree = "<group>"; };
+		8487617A1994F6610028857E /* CollageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollageVC.m; sourceTree = "<group>"; };
+		8487617C1994F7910028857E /* SelectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectButton.h; sourceTree = "<group>"; };
+		8487617D1994F7910028857E /* SelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectButton.m; sourceTree = "<group>"; };
+		8487617F1994F8670028857E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		848761811994FE110028857E /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		848761821994FE110028857E /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		8487618419955C760028857E /* Const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Const.h; sourceTree = "<group>"; };
+		84876185199573090028857E /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		84876186199573090028857E /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		84876188199644600028857E /* SchemeRules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchemeRules.h; sourceTree = "<group>"; };
+		84876189199644600028857E /* SchemeRules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchemeRules.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				848761801994F8670028857E /* MessageUI.framework in Frameworks */,
 				8487613A1994E66E0028857E /* CoreGraphics.framework in Frameworks */,
 				8487613C1994E66E0028857E /* UIKit.framework in Frameworks */,
 				848761381994E66E0028857E /* Foundation.framework in Frameworks */,
@@ -98,6 +123,7 @@
 		848761361994E66E0028857E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8487617F1994F8670028857E /* MessageUI.framework */,
 				848761371994E66E0028857E /* Foundation.framework */,
 				848761391994E66E0028857E /* CoreGraphics.framework */,
 				8487613B1994E66E0028857E /* UIKit.framework */,
@@ -109,6 +135,7 @@
 		8487613D1994E66E0028857E /* BPCollage */ = {
 			isa = PBXGroup;
 			children = (
+				8487618419955C760028857E /* Const.h */,
 				848761721994F5580028857E /* MODEL */,
 				8487616F1994F5000028857E /* VIEW */,
 				848761701994F53D0028857E /* CONTROLLER */,
@@ -153,6 +180,10 @@
 			isa = PBXGroup;
 			children = (
 				848761491994E66E0028857E /* Main.storyboard */,
+				848761811994FE110028857E /* CollectionViewCell.h */,
+				848761821994FE110028857E /* CollectionViewCell.m */,
+				8487617C1994F7910028857E /* SelectButton.h */,
+				8487617D1994F7910028857E /* SelectButton.m */,
 			);
 			name = VIEW;
 			sourceTree = "<group>";
@@ -160,6 +191,12 @@
 		848761701994F53D0028857E /* CONTROLLER */ = {
 			isa = PBXGroup;
 			children = (
+				848761731994F5E70028857E /* NicknameVC.h */,
+				848761741994F5E70028857E /* NicknameVC.m */,
+				848761761994F6350028857E /* BestCollectionVC.h */,
+				848761771994F6350028857E /* BestCollectionVC.m */,
+				848761791994F6610028857E /* CollageVC.h */,
+				8487617A1994F6610028857E /* CollageVC.m */,
 			);
 			name = CONTROLLER;
 			sourceTree = "<group>";
@@ -167,6 +204,10 @@
 		848761721994F5580028857E /* MODEL */ = {
 			isa = PBXGroup;
 			children = (
+				84876188199644600028857E /* SchemeRules.h */,
+				84876189199644600028857E /* SchemeRules.m */,
+				84876185199573090028857E /* Photo.h */,
+				84876186199573090028857E /* Photo.m */,
 			);
 			name = MODEL;
 			sourceTree = "<group>";
@@ -269,8 +310,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				848761781994F6350028857E /* BestCollectionVC.m in Sources */,
+				8487617E1994F7910028857E /* SelectButton.m in Sources */,
 				848761481994E66E0028857E /* BPCollageAppDelegate.m in Sources */,
+				8487617B1994F6610028857E /* CollageVC.m in Sources */,
+				84876187199573090028857E /* Photo.m in Sources */,
 				848761441994E66E0028857E /* main.m in Sources */,
+				848761831994FE110028857E /* CollectionViewCell.m in Sources */,
+				848761751994F5E70028857E /* NicknameVC.m in Sources */,
+				8487618A199644600028857E /* SchemeRules.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

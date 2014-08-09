@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Ник в Instagram-->
+        <!--NicknameVC - Ник в Instagram-->
         <scene sceneID="4H8-YX-7VT">
             <objects>
-                <viewController id="Bcn-TF-Cyf" sceneMemberID="viewController">
+                <viewController id="Bcn-TF-Cyf" customClass="NicknameVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4P4-yX-69H"/>
                         <viewControllerLayoutGuide type="bottom" id="PIh-qH-z0b"/>
@@ -16,38 +16,76 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ApA-ov-o1t">
-                                <rect key="frame" x="97" y="248" width="127" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BPb-bY-332">
+                                <rect key="frame" x="0.0" y="103" width="320" height="141"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Давай коллаж">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="bax-1M-S3P" kind="push" id="QgG-lE-nzt"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="35Z-8j-kaV">
-                                <rect key="frame" x="112" y="148" width="97" height="30"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="35Z-8j-kaV">
+                                        <rect key="frame" x="35" y="35" width="250" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="250" id="HtA-O4-xuz"/>
+                                        </constraints>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ApA-ov-o1t">
+                                        <rect key="frame" x="97" y="87" width="126" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Давай коллаж!">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="clickCreate:" destination="Bcn-TF-Cyf" eventType="touchUpInside" id="wHb-9N-Sga"/>
+                                            <segue destination="bax-1M-S3P" kind="push" identifier="PushToCollection" id="QgG-lE-nzt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.062745098040000002" green="0.83529411760000005" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="ApA-ov-o1t" secondAttribute="centerX" id="6GG-WS-ral"/>
+                                    <constraint firstItem="ApA-ov-o1t" firstAttribute="top" secondItem="35Z-8j-kaV" secondAttribute="bottom" constant="22" id="CEZ-wf-SXn"/>
+                                    <constraint firstAttribute="height" constant="141" id="Csd-36-hjd"/>
+                                    <constraint firstAttribute="centerX" secondItem="35Z-8j-kaV" secondAttribute="centerX" id="S5j-r6-Swb"/>
+                                    <constraint firstItem="35Z-8j-kaV" firstAttribute="top" secondItem="BPb-bY-332" secondAttribute="top" constant="35" id="ez5-2N-Vrr"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="vrU-h6-4Dv">
+                                <rect key="frame" x="150" y="75" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vrU-h6-4Dv" firstAttribute="top" secondItem="4P4-yX-69H" secondAttribute="bottom" constant="11" id="3Tc-1u-H5b"/>
+                            <constraint firstAttribute="centerX" secondItem="vrU-h6-4Dv" secondAttribute="centerX" id="6W9-Mn-m2N"/>
+                            <constraint firstItem="BPb-bY-332" firstAttribute="top" secondItem="vrU-h6-4Dv" secondAttribute="bottom" constant="8" id="Im5-X5-aSB"/>
+                            <constraint firstAttribute="trailing" secondItem="BPb-bY-332" secondAttribute="trailing" id="kqh-4K-lA6"/>
+                            <constraint firstItem="BPb-bY-332" firstAttribute="leading" secondItem="dvE-O6-BDu" secondAttribute="leading" id="tMr-hz-Uph"/>
+                            <constraint firstItem="BPb-bY-332" firstAttribute="top" secondItem="vrU-h6-4Dv" secondAttribute="bottom" constant="8" id="xkd-jB-6Kz"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Ник в Instagram" id="Kmp-cT-bwJ">
                         <barButtonItem key="backBarButtonItem" title="Ник" id="Grz-BD-44d"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="backgroundView" destination="BPb-bY-332" id="a9S-ux-j0F"/>
+                        <outlet property="nickname" destination="35Z-8j-kaV" id="Oqd-Bx-Cma"/>
+                        <outlet property="spinner" destination="vrU-h6-4Dv" id="Byi-2G-4x7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JQz-Fo-weQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="566" y="198"/>
         </scene>
-        <!--Collection View Controller - Лучшие-->
+        <!--Best CollectionVC - Лучшие-->
         <scene sceneID="1nB-Dy-Rvh">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="bax-1M-S3P" sceneMemberID="viewController">
-                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="X9Q-zj-sXf">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="bax-1M-S3P" customClass="BestCollectionVC" sceneMemberID="viewController">
+                    <collectionView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="X9Q-zj-sXf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -58,15 +96,46 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="eMr-8q-A7k">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionCell" id="eMr-8q-A7k" customClass="CollectionViewCell">
                                 <rect key="frame" x="0.0" y="64" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EH7-ja-huU" customClass="SelectButton">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="tapCell:" destination="bax-1M-S3P" eventType="touchUpInside" id="Rhe-nr-7Lx"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CcS-xc-gXq">
+                                            <rect key="frame" x="5" y="86" width="29" height="14"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="EH7-ja-huU" firstAttribute="leading" secondItem="eMr-8q-A7k" secondAttribute="leading" id="3Lb-fm-aLa"/>
+                                    <constraint firstItem="EH7-ja-huU" firstAttribute="top" secondItem="eMr-8q-A7k" secondAttribute="top" id="6zW-BQ-xQM"/>
+                                    <constraint firstItem="CcS-xc-gXq" firstAttribute="leading" secondItem="eMr-8q-A7k" secondAttribute="leading" constant="5" id="ACW-lL-djb"/>
+                                    <constraint firstAttribute="bottom" secondItem="CcS-xc-gXq" secondAttribute="bottom" id="LrB-y9-bdk"/>
+                                    <constraint firstAttribute="bottom" secondItem="EH7-ja-huU" secondAttribute="bottom" id="SbI-He-jf8"/>
+                                    <constraint firstAttribute="trailing" secondItem="EH7-ja-huU" secondAttribute="trailing" id="rge-x1-0fm"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="button" destination="EH7-ja-huU" id="peZ-bo-rWU"/>
+                                    <outlet property="label" destination="CcS-xc-gXq" id="j53-Af-f7n"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -77,19 +146,22 @@
                     <navigationItem key="navigationItem" title="Лучшие" id="sDc-v0-sjG">
                         <barButtonItem key="rightBarButtonItem" title="Склеить" id="Mh5-pw-Nyj">
                             <connections>
-                                <segue destination="dg0-dZ-avS" kind="push" id="RM8-JY-ysa"/>
+                                <segue destination="dg0-dZ-avS" kind="push" identifier="PrepareForCollage" id="RM8-JY-ysa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="buttonMakeCollage" destination="Mh5-pw-Nyj" id="BeD-Ta-rBJ"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1f1-Sj-Mfm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1035" y="198"/>
         </scene>
-        <!--View Controller - Коллаж-->
+        <!--CollageVC - Коллаж-->
         <scene sceneID="ygK-jF-RnF">
             <objects>
-                <viewController id="dg0-dZ-avS" sceneMemberID="viewController">
+                <viewController id="dg0-dZ-avS" customClass="CollageVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LZA-9W-JXh"/>
                         <viewControllerLayoutGuide type="bottom" id="DM3-uw-Nbm"/>
@@ -97,11 +169,31 @@
                     <view key="view" contentMode="scaleToFill" id="OAD-cb-vCd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJ7-DY-9u9">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fJ7-DY-9u9" firstAttribute="leading" secondItem="OAD-cb-vCd" secondAttribute="leading" id="SM7-TX-RI7"/>
+                            <constraint firstItem="DM3-uw-Nbm" firstAttribute="top" secondItem="fJ7-DY-9u9" secondAttribute="bottom" id="msj-q5-EVF"/>
+                            <constraint firstAttribute="trailing" secondItem="fJ7-DY-9u9" secondAttribute="trailing" id="tlg-Xl-Wpv"/>
+                            <constraint firstItem="fJ7-DY-9u9" firstAttribute="top" secondItem="LZA-9W-JXh" secondAttribute="bottom" id="zan-8L-005"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Коллаж" id="2Xh-KO-5sE">
-                        <barButtonItem key="rightBarButtonItem" title="Отправить" id="TCu-uq-Kn8"/>
+                        <barButtonItem key="rightBarButtonItem" title="Отправить" id="TCu-uq-Kn8">
+                            <connections>
+                                <action selector="sendMail:" destination="dg0-dZ-avS" id="seA-5z-Age"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="viewForCollage" destination="fJ7-DY-9u9" id="xVq-KL-hNV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpp-8m-auU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
