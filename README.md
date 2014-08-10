@@ -1,4 +1,7 @@
-BPCollage
+BPCollage by Sergey Shvedov
 =========
 
-Test task.
+Использованы стандартные библиотеки:
+NSURLSessionDownload
+MFMailComposeViewController
+UICollectionView
