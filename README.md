@@ -1,0 +1,4 @@
+BPCollage
+=========
+
+Test task.
