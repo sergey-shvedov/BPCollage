@@ -229,6 +229,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self checkCountOfSelectedImages];
     // Do any additional setup after loading the view.
 }
 
